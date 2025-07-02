@@ -1,11 +1,10 @@
 // Form.vue
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import httpService from "@/services/HttpService";
 import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute();
 const router = useRouter();
 
 const state = reactive({
@@ -15,6 +14,13 @@ const state = reactive({
     content: "",
     createdAt: "",
   },
+});
+onMounted(() => {
+  const passData = history.state.data;
+  // console.log(passData);
+  if (history.state.data) {
+    state.memo = JSON.parse(passData);
+  }
 });
 
 // 저장
