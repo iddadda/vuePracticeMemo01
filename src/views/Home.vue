@@ -2,20 +2,32 @@
 import { reactive, onMounted } from "vue";
 import httpService from "@/services/HttpService";
 
-const memos = [];
-
 const state = reactive({
   memos: [],
 });
 
 // 메모 리스트
-const getMemoItems = async (params) => {
-  const data = await httpService.getMemoList(params);
+const findAll = async (params) => {
+  const data = await httpService.findAll(params);
   state.memos = data.resultData;
 };
+
 onMounted(() => {
-  getMemoItems({});
+  console.log("Home.vue-onMounted를 보낸 콜백 함수 호출");
+  findAll({});
 });
+
+// 검색 버튼을 누르면 findAll을 호출
+// 파라미터로 { search_text: '검색 키워드에 적힌 내용 보내기'}
+const model = {
+  searchText: "",
+};
+const search = () => {
+  const params = {
+    search_text: model.searchText,
+  };
+  findAll(params);
+};
 </script>
 
 <template>
@@ -23,6 +35,18 @@ onMounted(() => {
     <router-link to="/memo/add" class="add btn btn-light">
       + 추가하기
     </router-link>
+    <div class="mb-3 mt-3 d-flex">
+      <label for="title" class="form-label"></label>
+      <input
+        type="text"
+        id="title"
+        class="form-control p-3 me-1"
+        placeholder="검색 키워드"
+        v-model="model.searchText"
+        @keyup.enter="search"
+      />
+      <button class="btn btn-primary" @click="search">검색</button>
+    </div>
     <router-link
       v-for="m in state.memos"
       :to="`/memos/${m.id}`"
@@ -67,4 +91,3 @@ onMounted(() => {
   border: 1px solid #eee;
 }
 </style>
-출처: https://domsam.tistory.com/68 [domsam - IT 기술 블로그:티스토리]

@@ -28,9 +28,9 @@ const procSubmit = async () => {
     router.push({
       path: "/",
     });
+  } else {
+    alert(data.resultMessage);
   }
-
-  alert("저장되었습니다.");
 };
 </script>
 
