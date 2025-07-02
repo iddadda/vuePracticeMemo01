@@ -34,3 +34,18 @@ res에는 respose 객체가 저장된다.
 Promise 객체에만 사용할 수 있다.
 
 ## onMounted는 함수이다.
+
+## JSON을 객체로 변경
+
+`JSON.parse(JSON)`
+
+## 객체를 JSON으로 변경
+
+`JSON.stringify(obj)`
+
+## history
+
+history 객체는 브라우저에서 제공하는 것.
+바로 사용 가능
+
+- 뒤로가기 기능 구현할 때도 사용 가능

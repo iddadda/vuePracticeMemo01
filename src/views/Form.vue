@@ -62,7 +62,9 @@ const procSubmit = async () => {
         v-model="state.memo.content"
       ></textarea>
     </div>
-    <button type="submit" class="btn btn-primary w-100 py-3">저장</button>
+    <button type="submit" class="btn btn-primary w-100 py-3">
+      {{ state.memo.id > 0 ? "수정완료" : "저장" }}
+    </button>
   </form>
 </template>
 
