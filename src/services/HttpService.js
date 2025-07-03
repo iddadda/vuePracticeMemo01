@@ -19,6 +19,22 @@ class HttpService {
     const res = await axios.get(`/memo/${id}`);
     return res.data;
   }
+
+  // 메모 수정
+  async modify(jsonBody) {
+    const res = await axios.put("/memo", jsonBody);
+    return res.data;
+  }
+
+  // 메모 삭제
+  async deleteById(params) {
+    const res = await axios.delete("/memo", { params });
+    return res.data;
+  }
+  // async deleteById(id) {
+  //   const res = await axios.delete(`/memo?id=${id}`);
+  //   return res.data;
+  // }
 }
 
 export default new HttpService();

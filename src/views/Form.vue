@@ -15,8 +15,8 @@ const state = reactive({
     createdAt: "",
   },
 });
+const passData = history.state.data;
 onMounted(() => {
-  const passData = history.state.data;
   // console.log(passData);
   if (history.state.data) {
     state.memo = JSON.parse(passData);
@@ -29,11 +29,21 @@ const procSubmit = async () => {
     title: state.memo.title,
     content: state.memo.content,
   };
-  const data = await httpService.save(jsonBody);
+
+  // 백엔드와 통신한 데이터를 담을 변수 선언
+  let data = null;
+  let path = "/";
+  if (history.state.data) {
+    jsonBody.id = state.memo.id;
+    path = `/memos/${jsonBody.id}`;
+    data = await httpService.modify(jsonBody);
+  } else {
+    data = await httpService.save(jsonBody);
+  }
+
+  // 수정, 등록 완료시 화면 이동
   if (data.resultData === 1) {
-    router.push({
-      path: "/",
-    });
+    router.push({ path });
   } else {
     alert(data.resultMessage);
   }
@@ -63,7 +73,7 @@ const procSubmit = async () => {
       ></textarea>
     </div>
     <button type="submit" class="btn btn-primary w-100 py-3">
-      {{ state.memo.id > 0 ? "수정완료" : "저장" }}
+      {{ state.memo.id > 0 ? "수정하기" : "저장하기" }}
     </button>
   </form>
 </template>

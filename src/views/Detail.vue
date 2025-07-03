@@ -24,7 +24,7 @@ onMounted(async () => {
 });
 
 const moveToForm = () => {
-  // 객체로 전송할 수 없기 때문에 문자열로 변경해줌
+  // 객체로 전송할 수 없기 때문에 문자열로 변경해줌 (직렬화)
   const json = JSON.stringify(state.memo);
 
   router.push({

@@ -6,14 +6,14 @@ const state = reactive({
   memos: [],
 });
 
-// 메모 리스트
+// 메모 리스트 조회
 const findAll = async (params) => {
   const data = await httpService.findAll(params);
   state.memos = data.resultData;
 };
 
 onMounted(() => {
-  console.log("Home.vue-onMounted를 보낸 콜백 함수 호출");
+  console.log("-- 메모장 Home --");
   findAll({});
 });
 
@@ -28,6 +28,30 @@ const search = () => {
   };
   findAll(params);
 };
+
+// 삭제버튼 이벤트
+// search()를 호출해야 검색된 상태에서 삭제 이벤트를 진행해도 페이지가 유지됨
+const remove = async (params) => {
+  if (!confirm("삭제하시겠습니까?")) {
+    return;
+  }
+  const data = await httpService.deleteById(params);
+  if (data.resultData === 1) {
+    search();
+  }
+  alert(data.resultMessage);
+};
+
+// const remove = async (id) => {
+//   if (!confurm("삭제하시겠습니까?")) {
+//     return;
+//   }
+
+//   const data = await httpService.deleteById(id);
+//   if (data.resultData === 1) {
+//     search();
+//   }
+// };
 </script>
 
 <template>
@@ -58,7 +82,7 @@ const search = () => {
           <div class="d-flex justify-content-between">
             <b>{{ m.title }}</b>
             <div>
-              <span role="button" @click.prevent="remove(m.id)">삭제</span>
+              <span role="button" @click.prevent="remove(m)">삭제</span>
             </div>
           </div>
           <div class="mt-2">{{ m.content }}</div>
